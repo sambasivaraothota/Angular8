@@ -1,0 +1,105 @@
+<div fxLayout="column">
+
+<form [formGroup]="SchedulingForm"  fxLayout="column">
+    <div class="heading_text" fxLayout="column">
+       <span  fxLayoutAlign="end center"> <mat-icon style="color: rgb(117, 114, 114);cursor: pointer;" fxLayoutAlign="end center" (click)="onNoClick()">close</mat-icon></span>
+        <span style="margin: 1%;">Add report schedule for {{search_criteriaName}}</span>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="text-style" >
+        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="47">
+              <span  style="white-space:nowrap;margin-right: 2%;">Start Date  :</span>
+                  <div fxLayoutAlign="end center"  class="date">
+                      <input formControlName="start_date"  matInput [matDatepicker]="picker" (click)="picker.open()" readonly class="date-input">
+                       <mat-datepicker-toggle matSuffix [for]="picker"  class="date-icon" >
+                          <mat-icon  matDatepickerToggleIcon class="date-icon" >date_range</mat-icon>
+                        </mat-datepicker-toggle>
+                      <mat-datepicker #picker disabled="false"></mat-datepicker>
+                 </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" fxFlex="47">
+                <span  style="white-space:nowrap;margin-right: 2%;" >Schedule Type :</span>
+                <mat-select  formControlName="schedule_type" class="select-box" >
+                        <mat-option *ngFor="let type of Types" [value]="type" (click)="selectedType(type)"> {{type}} </mat-option>
+                </mat-select>
+        </div>
+    </div>
+
+    <div fxLayout="row" class="text-style" fxLayoutAlign="start center" >
+        <div  fxLayout="row" *ngIf="SchedulingForm.get('schedule_type').value == 'Weekly'"  fxLayoutAlign="center center" fxFlex="47">
+            <input type="radio" checked name="select-radio"><span style="white-space:nowrap;margin-right: 2%;" >Days of Week :</span>
+            <mat-select formControlName="days" class="select-box" multiple>
+              <mat-optgroup *ngFor="let day of Week_Days" [label]="day.name" style="font-weight: 500;color:#7b7b7b;"  [disabled]="day.disabled">
+                  <mat-option *ngFor="let d of day.Days" [value]="d.value"  [ngStyle]="{'background-color':SchedulingForm.get('days').value.includes(d.value) ? '#3798ea' : 'white'}" >
+                       {{d.viewDay}}
+                  </mat-option>
+              </mat-optgroup>
+            </mat-select>
+        </div>
+        <div  fxLayout="row" *ngIf="SchedulingForm.get('schedule_type').value == 'Monthly'" fxLayoutAlign="center center" fxFlex="47">
+           <span style="white-space:nowrap;margin-right: 2%;">Months :</span>
+           <mat-select formControlName="months" class="select-box" multiple>
+                <mat-optgroup *ngFor="let month of Months" [label]="month.name" style="font-weight: 500;color:#7b7b7b;"  [disabled]="month.disabled">
+                    <mat-option *ngFor="let m of month.Month_names" [value]="m.value" [ngStyle]="{'background-color':SchedulingForm.get('months').value.includes(m.value) ? '#3798ea' : 'white'}">
+                       {{m.viewMonth}}
+                    </mat-option>
+                </mat-optgroup>
+            </mat-select>
+        </div>
+
+    </div>
+
+    <div fxLayout="row"  *ngIf="selectedMonthly" class="text-style" fxLayoutAlign="start center" >
+        <!-- <div *ngIf="selectedDaily" fxLayout="row" fxLayoutAlign="start center" fxFlex="47"> <input type="radio" name="select-radio" fxLayoutAlign="center center" >
+            <span style="white-space:nowrap;margin-right: 2%;"> Repeat every  :</span>
+            <input type="text" value="1" class="repeat_style" fxLayoutAlign="center center" formControlName="repeat_days"> <span>day(s)</span>
+        </div>
+        <div *ngIf="selectedWeekly" fxLayout="row" fxLayoutAlign="start center" fxFlex="47"> <input type="radio"  name="select-radio" fxLayoutAlign="center center" >
+             <span style="white-space:nowrap;margin-right: 2%;">Repeat every  :</span>
+            <input type="text" value="1" class="repeat_style" fxLayoutAlign="center center" formControlName="repeat_weeks"> <span>week(s)</span>
+        </div> -->
+        <div *ngIf="selectedMonthly" checked fxLayout="row"  fxLayoutAlign="start center" fxFlex="47">
+           <input type="radio" checked><span style="white-space:nowrap;margin-right: 2%;" name="select-radio" >On Calendar day(s) :</span>
+           <input type="text" class="repeat_style" fxLayoutAlign="center center" formControlName="calendar_days">
+        </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="text-style" >
+        <div fxLayout="row" fxFlex="47" fxLayoutAlign="center center" >
+              <span style="white-space:nowrap;margin-right: 2%;">Destination  :</span>
+              <mat-select  formControlName="destination_type" class="select-box" >
+                    <mat-option *ngFor="let dest of Destinations" [value]="dest"> {{dest}} </mat-option>
+             </mat-select>
+        </div>
+         <div fxLayout="row" fxFlex="47" fxLayoutAlign="center center" >
+              <span  style="white-space:nowrap;margin-right: 2%;">Format  :</span>
+              <mat-select  formControlName="format_type" class="select-box"  >
+                    <mat-option *ngFor="let format of Formats" [value]="format"> {{format}} </mat-option>
+             </mat-select>
+        </div>
+    </div>
+
+    <div fxLayout="column" class="mail-style">
+        <span class='email-note'>Please try entering multiple email addresses separated by comma</span>
+        <span>&nbsp;</span>
+        <span>To</span>
+        <textarea formControlName="selected_email" placeholder="Choose from available.." class="mail-box" [matAutocomplete]="auto"
+                  (keyup)="getUser_emails($event)"> </textarea>
+         <!--<mat-autocomplete fxFlex="55" #auto="matAutocomplete" (optionSelected)="email_Select($event)">-->
+        <mat-autocomplete fxFlex="55" #auto="matAutocomplete">
+            <mat-option *ngFor="let email of users_emails" [value]="selectedEmails">
+              <div (click)="optionClicked($event, email)">
+                  <mat-checkbox [checked]="email.selected" (change)="toggleSelection(email)" (click)="$event.stopPropagation()">{{email}}</mat-checkbox>
+              </div>
+            </mat-option>
+        </mat-autocomplete>
+        <div  *ngIf="( (SchedulingForm.get('selected_email').touched) || (SchedulingForm.get('selected_email').dirty) ) && (SchedulingForm.get('selected_email').errors)">
+           <span  fxLayoutAlign="start center"
+                        style="color: red;font-size: 0.8em">Email is required</span>
+        </div>
+    </div>
+
+    <div fxLayoutAlign="end center"><button class="schedule" (click)="onSchedule()">Schedule</button></div>
+</form>
+
+</div>

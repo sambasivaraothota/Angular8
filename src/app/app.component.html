@@ -1,0 +1,32 @@
+<app-header class="header"></app-header>
+
+<div class="middleContainer">
+  <router-outlet></router-outlet>
+
+  <div *ngIf="showNav" (clickOutside)="sideNavClose()" class="sideNavCustom">
+
+    <div class="header">
+      <div class="side-user">
+        <div class="avatar">
+          <b class="fa fa-user"></b>
+        </div>
+        <div class="info">
+          <h4>{{userName}}</h4>
+          <p>{{masterAccountName}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="column">
+      <div *ngIf="mySearchesVisible" class="my_searches" (click)="openMySearches()"><span>My Search Criteria</span></div>
+      <button type='button' class='text-center logout' (click)="logout()">
+        <i class='fa fa-power-off'></i>
+        <span class="logout_text">Logout</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<app-footer class="footer"></app-footer>

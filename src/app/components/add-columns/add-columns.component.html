@@ -1,0 +1,31 @@
+<div class="dialog" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <span class="search_label">Select Columns</span>
+  </div>
+  <div fxLayout="row" fxLayoutGap="2%" class="main">
+    <div fxLayout="row" fxLayoutGap="3%" fxFlex="100">
+      <div fxFlex="50" class="box">
+        <p class="title" fxLayoutAlign="center center">Available Columns</p>
+        <mat-checkbox class="columnsStyle" [(ngModel)]="select_all" (ngModelChange)="selectAll()" fxLayoutAlign="center center">Select All</mat-checkbox>
+        <div class="column_names">
+          <div *ngFor="let prop of columns">
+            <mat-checkbox *ngIf="!prop.isVisible" [(ngModel)]="prop.isVisible">{{prop.name}}</mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="50" class="box">
+        <p class="title" fxLayoutAlign="center center">Visible Columns</p>
+        <mat-checkbox class="columnsStyle" (ngModelChange)="clearAll()" [(ngModel)]="clear_all" fxLayoutAlign="center center">Clear All</mat-checkbox>
+        <div class="column_names" (cdkDropListDropped)="drop($event)" cdkDropList>
+          <div *ngFor="let prop of columns" cdkDrag cdkDragHandle>
+            <mat-checkbox *ngIf="prop.isVisible" [disabled]="disableColumns.indexOf(prop.name) > -1" [(ngModel)]="prop.isVisible">{{prop.name}}</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div  fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5%" class="p-10">
+    <button class="cancel_ok" (click)="onNoClick()">Cancel</button>
+    <button class="cancel_ok" (click)="onClickOk()" [mat-dialog-close]="data.showColumns" cdkFocusInitial>Ok</button>
+  </div>
+</div>

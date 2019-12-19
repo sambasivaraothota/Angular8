@@ -1,0 +1,348 @@
+<div fxLayout="column" class="main" fxLayoutGap="1%">
+
+  <div style="padding-left: 1% !important;">
+    <div fxLayout="row" fxFlex="340px" class="searchCriteriaMain" fxLayoutAlign="space-between center" *ngIf="showSideNav">
+      <div *ngIf="showSideNav" class="search_border" fxLayout="row" fxLayoutAlign="start center">
+        <input type="text" placeholder="Search Criteria Name" class="input_border" [(ngModel)]="search_name"
+               (keydown.space)="keyDownHandler($event)" (keyup)="onSearchAdd($event)">
+        <mat-select (click)="selectCriteria()" (selectionChange)="selectedCriteria($event)">
+          <mat-option *ngFor="let name of search_names" [value]="name" matTooltip={{name.NAME}}>
+            {{name.NAME}}
+          </mat-option>
+        </mat-select>
+        <mat-icon *ngIf="!saveOption" style="margin-left:-20px;cursor: not-allowed;z-index: 9 ">
+          touch_app
+        </mat-icon>
+        <mat-icon *ngIf="saveOption" style="margin-left:-20px;cursor: pointer;z-index: 9"
+                  [matMenuTriggerFor]="menu">touch_app</mat-icon>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item class="save_options" *ngIf="saveOption" (click)="onClearSearch()">
+            <mat-icon class="search-icons">clear</mat-icon>
+            <span>Clear</span>
+          </button>
+          <button mat-menu-item class="save_options" *ngIf="iconShow" (click)="onApplySearch()">
+            <mat-icon class="search-icons">edit</mat-icon>
+            <span>Apply</span>
+          </button>
+          <button mat-menu-item class="save_options" *ngIf="saveOption" (click)="onSaveSearch(search_name)">
+            <mat-icon class="search-icons">save</mat-icon>
+            <span>Save</span>
+          </button>
+          <button mat-menu-item class="save_options" *ngIf="iconShow" (click)="onDeleteSearch()">
+            <mat-icon class="search-icons">delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button mat-menu-item class="save_options" *ngIf="iconShow" (click)="onInfoSearch()">
+            <mat-icon class="search-icons">info</mat-icon>
+            <span>Info</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div>
+        <mat-icon class="toggle" (click)="showSearchOptions()">chevron_left</mat-icon>
+      </div>
+    </div>
+    <!--<ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="small">
+      <p class="savedSearch">{{savedSearchMessage}}</p>
+    </ngx-spinner>-->
+    <div *ngIf="!showSideNav">
+      <mat-icon class="toggle" (click)="showSearchOptions()">menu</mat-icon>
+    </div>
+    <button class="search_criteria" fxLayoutAlign="center center" (click)="showSearchCriteria()">
+      <mat-icon>keyboard_arrow_down</mat-icon><span class="s_criteria">Search Criteria</span>
+    </button>
+    <div *ngIf="showSearch_criteria" fxLayout="row wrap" fxLayoutAlign="center center">
+      <label class="display_searches" *ngIf="ConsolidationForm.value.facility_id"><span>Facility Id:</span> <span>{{ConsolidationForm.value.facility_id}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.customer_id"><span>Customer Id:</span> <span>{{ConsolidationForm.value.customer_id}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.item"><span>Item: </span> <span>{{ConsolidationForm.value.item}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.warehouse_lot"><span>Warehouse Lot#:</span> <span>{{ConsolidationForm.value.warehouse_lot}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.manufacture_lot"><span>Manufacture Lot#:</span> <span>{{ConsolidationForm.value.manufacture_lot}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.customer_ref"><span>Customer Reference#:</span> <span>{{ConsolidationForm.value.customer_ref}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.order_receipt"><span>Order:</span> <span>{{ConsolidationForm.value.order_receipt}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.range_from"><span>From:</span> <span>{{ConsolidationForm.value.range_from | date}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.range_to"><span>To: </span> <span>{{ConsolidationForm.value.range_to | date}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.type"><span>Type :</span> <span>{{ConsolidationForm.value.type}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.rating_run"><span>Rating Run:</span> <span>{{ConsolidationForm.value.rating_run}},</span> </label>
+      <label class="display_searches" *ngIf="ConsolidationForm.value.storage"><span>Storage Type:</span> <span>{{ConsolidationForm.value.storage}}</span> </label>
+    </div>
+  </div>
+
+  <div>
+    <!-- left nav Filters -->
+    <form [formGroup]="ConsolidationForm" fxLayout="column" class="filters" fxFlex="23" *ngIf="showSideNav">
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button class="search expand" fxLayoutAlign="center center" fxLayoutGap="3%" (click)="onSearchClick('undefined', true)">
+          <span>Search</span><i class="material-icons icon-serach">search</i>
+        </button>
+      </div>
+      <span class="title">Site Information</span>
+      <div fxLayout="column">
+        <div fxLayout="column" style="margin-bottom: 3%;">
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <span fxFlex="45">Facility<span class="star">*</span></span>
+            <input fxFlex="55" (blur)="onInputBlur('facility_id')" (debounce)="3000" (keyup)="facility_search($event)"
+                   (keydown.space)="keyDownHandler($event)" formControlName="facility_id"
+                   [matAutocomplete]="auto">
+
+          </div>
+          <div fxLayout="row">
+            <span fxFlex="45"></span>
+            <mat-autocomplete fxFlex="55" #auto="matAutocomplete" (optionSelected)="facilitySelect($event)">
+              <mat-option *ngFor="let facility of facility_data" [value]="facility"
+                          matTooltip={{facility.value}}>{{facility.value}}</mat-option>
+            </mat-autocomplete>
+          </div>
+          <div fxLayout="row"
+               *ngIf="( (ConsolidationForm.get('facility_id').touched) || (ConsolidationForm.get('facility_id').dirty) ) && (ConsolidationForm.get('facility_id').errors)">
+            <span fxFlex="45"></span> <span fxFlex="55" fxLayoutAlign="start center"
+                                            style="color: red;font-size: 0.8em">Facility is required</span>
+          </div>
+        </div>
+        <div fxLayout="column" style="margin-bottom: 3%;">
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <span fxFlex="45">Customer</span>
+            <input fxFlex="55" (blur)="onInputBlur('customer_id')" (keyup)="customer_search($event)"
+                   (keydown.space)="keyDownHandler($event)" formControlName="customer_id"
+                   [matAutocomplete]="auto1">
+
+          </div>
+          <div fxLayout="row">
+            <span fxFlex="45"></span>
+            <mat-autocomplete fxFlex="55" #auto1="matAutocomplete"
+                              (optionSelected)="customerSelect($event)">
+              <mat-option *ngFor="let customer of customer_data" [value]="customer"
+                          matTooltip={{customer.value}}>{{customer.value}}</mat-option>
+            </mat-autocomplete>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 3%;">
+          <span fxFlex="45">Item</span> <input fxFlex="55" formControlName="item" (keydown.space)="keyDownHandler($event)">
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 3%;">
+          <span fxFlex="45">Warehouse Lot#</span> <input fxFlex="55" formControlName="warehouse_lot" (keydown.space)="keyDownHandler($event)">
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 3%;">
+          <span fxFlex="45">Manufacture Lot#</span> <input fxFlex="55" formControlName="manufacture_lot" (keydown.space)="keyDownHandler($event)">
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 3%;">
+          <span fxFlex="45">Customer Reference#</span> <input fxFlex="55" formControlName="customer_ref" (keydown.space)="keyDownHandler($event)">
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 3%;">
+          <span fxFlex="45">Order#/Receipt#</span> <input fxFlex="55" formControlName="order_receipt" (keydown.space)="keyDownHandler($event)">
+        </div>
+      </div>
+
+      <span class="title">Dispatch/Snapshot</span>
+
+      <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 10px;">
+        <span fxFlex="45">Range<span class="star">*</span></span>
+        <mat-select formControlName="range" fxFlex="55" class="select-box" [(value)]="selected_dateRange"
+                     (selectionChange)="dateRangeChanged(selected_dateRange)">
+          <mat-option *ngFor="let range of Ranges" [value]="range"> {{range}} </mat-option>
+        </mat-select>
+      </div>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 10px;">
+          <span fxFlex="45">Dispatch/ Snapshot Date From<span class="star">*</span></span>
+          <div fxFlex="55" fxLayout="column">
+            <div fxLayoutAlign="end center" class="date">
+              <input formControlName="range_from" matInput [matDatepicker]="picker" (click)="!disableDatePicker ? picker.open() : ''" class="date-input" [readonly]="disableDatePicker">
+              <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="disableDatePicker">
+                <mat-icon matDatepickerToggleIcon class="date-icon">date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker disabled="false"></mat-datepicker>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="( (ConsolidationForm.get('range_from').touched) || (ConsolidationForm.get('range_from').dirty) ) && (ConsolidationForm.get('range_from').hasError('required'))">
+          <span fxFlex="45"></span> <span fxFlex="55" style="color: red;font-size: 0.8em">
+            Enter valid date
+          </span>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 10px;">
+          <span fxFlex="45">Dispatch/ Snapshot Date To<span class="star">*</span></span>
+          <div fxFlex="55" fxLayout="column">
+            <div fxLayoutAlign="end center" class="date">
+              <input formControlName="range_to" matInput [matDatepicker]="picker2" (click)="!disableDatePicker ? picker2.open() : ''" class="date-input" [readonly]="disableDatePicker">
+              <mat-datepicker-toggle matSuffix [for]="picker2" [disabled]="disableDatePicker">
+                <mat-icon matDatepickerToggleIcon class="date-icon">date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="( (ConsolidationForm.get('range_to').touched) || (ConsolidationForm.get('range_to').dirty) ) && (ConsolidationForm.get('range_to').errors)">
+          <span fxFlex="45"></span> <span fxFlex="55" style="color: red;font-size: 0.8em">
+            Enter valid date
+          </span>
+        </div>
+      </div>
+      <span class="title">Types</span>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 10px;">
+          <span fxFlex="45">Type<span class="star">*</span></span>
+          <mat-select fxFlex="55" formControlName="type" class="select-box" multiple>
+            <mat-option *ngFor="let type of Types" [value]="type"> {{type}} </mat-option>
+          </mat-select>
+        </div>
+        <div *ngIf="( (ConsolidationForm.get('type').touched) || (ConsolidationForm.get('type').dirty) ) && (ConsolidationForm.get('type').errors)">
+          <span fxFlex="45"></span><span fxFlex="55" style="color: red;font-size: 0.8em">
+            This field is
+            required
+          </span>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 10px;">
+        <span fxFlex="45">Rating Run</span>
+        <mat-select fxFlex="55" formControlName="rating_run" class="select-box">
+          <mat-option *ngFor="let rating of Rating_Run" [value]="rating"> {{rating}} </mat-option>
+        </mat-select>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 10px;">
+        <span fxFlex="45">Storage Type</span>
+        <mat-select fxFlex="55" formControlName="storage_type" class="select-box">
+          <mat-option *ngFor="let storage of Storage_Type" [value]="storage"> {{storage}} </mat-option>
+        </mat-select>
+      </div>
+    </form>
+
+    <!-- Consolidation table -->
+    <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+      <p class="savedSearch">{{consSearchMessage}}</p>
+    </ngx-spinner>
+
+    <!-- <div *ngIf="!tableShow" fxLayoutAlign="end  ">
+            <span class="err_msg">No data found to display</span>
+    </div> -->
+    <ng-sidebar-container class="right-part">
+      <div ng-sidebar-content>
+        <div fxLayout="column" fxLayoutGap="1%">
+          <div fxLayout="row" fxLayoutAlign="space-between start" >
+            <div class="search_border1" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="facility_id !== ''">
+              <input type="text" placeholder="Result Filter" class="input_border" [(ngModel)]="result_filter"
+                     (keyup.enter)="resultsFilterSearch($event.target.value, true)">
+              <mat-icon>search</mat-icon>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="end start" *ngIf="paginationShow">
+              <span class="download-file">{{fileExportMessage}}</span>
+              <button class="more" (click)="openColumns()" fxLayoutAlign="center center">
+                More Columns
+                <mat-icon>arrow_drop_down</mat-icon>
+              </button>
+              <!-- <input type="image" src="/assets/excel-icon.png" class="excel" *ngIf="enableExport" (click)="FileExport()">
+              <input type="image" src="/assets/excel-disabled-icon.png" class="excel-disabled" *ngIf="!enableExport">    -->
+              <input type="image" src="/assets/excel-icon.png" class="excel" (click)="FileExport()" *ngIf="enableExport">
+              <div class="disable-excel" *ngIf="!enableExport"><mat-spinner [diameter]="15"></mat-spinner></div>
+            </div>
+          </div>
+          <div *ngIf='error_msg' fxLayoutAlign="center start">
+            <span class="err_msg">No data found to display</span>
+          </div>
+          <div id="tblConsolidation" class="table-scroll" fxLayout="column">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="actual_rcpt_ship_date" matSortDirection="desc" matSortDisableClear>
+              <div *ngFor="let column of displayedColumns">
+                <ng-container [matColumnDef]="column.dataName" *ngIf="column.name === 'Select' ">
+                  <th mat-header-cell *matHeaderCellDef>Select</th>
+                  <td mat-cell *matCellDef="let row">
+                    <button mat-raised-button class="expand"
+                            (click)="expandConsolidation(row)">
+                      Expand
+                    </button>
+                  </td>
+                </ng-container>
+                <ng-container [matColumnDef]="column.dataName"
+                              *ngIf="column.isVisible && column.name !== 'Select'" class="column-space">
+                  <th mat-cell class="text-center" *matHeaderCellDef mat-sort-header> {{column.name}} </th>
+                  <td mat-cell nowrap class="text-center" *matCellDef="let element">
+                    {{element[column.dataName]}}
+                  </td>
+                </ng-container>
+              </div>
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+            </table>
+
+          </div>
+
+          <!-- pagination -->
+          <div fxLayout="row" *ngIf="paginationShow" fxLayoutAlign="space-between center" class="pagination">
+            <div fxLayoutAlign="start center">
+              <span>Total : <span style="font-weight: 600; color: #7b7b7b;">{{count}}</span></span>
+            </div>
+
+            <div fxLayout="row" fxLayoutGap="8%" *ngIf="paginationShow">
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10%">
+                <span style="white-space:nowrap;margin-right: 5%;">Items per Page :</span>
+                <div class="itemsperPage">
+                  <mat-select [(value)]="selected" style="width: 50px;"
+                              (selectionChange)="tablePageChange($event)">
+                    <mat-option value='5'>5</mat-option>
+                    <mat-option value='10'>10</mat-option>
+                    <mat-option value='15'>15</mat-option>
+                    <mat-option value='20'>20</mat-option>
+                    <mat-option value='25'>25</mat-option>
+                    <mat-option value='30'>30</mat-option>
+                    <mat-option value='35'>35</mat-option>
+                    <mat-option value='40'>40</mat-option>
+                    <mat-option value='45'>45</mat-option>
+                    <mat-option value='50'>50</mat-option>
+                  </mat-select>
+                </div>
+              </div>
+              <div style="white-space:nowrap;">
+                <button [disabled]="currentPage === 1" class="button button4"
+                        [ngStyle]="{'cursor': currentPage === 1 ? 'not-allowed': 'pointer'}"
+                        (click)="first()" href="#">
+                  First
+                </button>
+                <button class="button button4"
+                        [ngStyle]="{'cursor': currentPage === 1 ? 'not-allowed': 'pointer'}"
+                        [disabled]="currentPage === 1" (click)="backward(currentPage)"
+                        href="#">
+                  &laquo;
+                </button>
+                <span *ngFor="let p of pageNumbers" (click)="activePage(p)">
+                  <button [ngClass]="currentPage === p ? 'button': 'button button4'"
+                          href="#">
+                    {{p}}
+                  </button>
+                </span>
+                <button class="button button4"
+                        [ngStyle]="{'cursor': currentPage === pages.length ? 'not-allowed': 'pointer'}"
+                        [disabled]="currentPage === pages.length"
+                        (click)="forward(currentPage)">
+                  &raquo;
+                </button>
+                <button [ngStyle]="{'cursor': currentPage === pages.length ? 'not-allowed': 'pointer'}"
+                        class="button button4" [disabled]="currentPage === pages.length" (click)="last()"
+                        href="#">
+                  Last
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <ng-sidebar [(opened)]="expand_open" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="false"
+                  [closeOnClickBackdrop]="false" [autoFocus]=false [trapFocus]=false [showBackdrop]="false"
+                  [animate]="animate">
+        <div fxLayout="column" class="border-transaction" >
+          <div fxLayoutAlign="end center">
+            <button class="close_button1" (click)="expandConsolidation()">
+              <mat-icon class="close_button">close</mat-icon>
+            </button>
+          </div>
+          <app-transactions-page [selectedData]="selectedrowData"></app-transactions-page>
+        </div>
+      </ng-sidebar>
+      <!-- <div style="clear:both;"></div> -->
+    </ng-sidebar-container>
+
+  </div>
+</div>

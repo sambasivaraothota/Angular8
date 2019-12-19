@@ -1,0 +1,105 @@
+<!-- <div *ngIf="!tableShow"  style="width: 100%">
+        <span fxLayoutAlign="center center" style="font-size: 1.5em;color: gray;font-weight: 600;">No columns selected to display the data</span>
+</div>
+     -->
+<div fxLayout="column"  fxLayoutGap="1%" class="table_display"  *ngIf="referenceData">
+
+  <div  fxLayout="row" fxLayoutAlign="space-between center"  >
+    <!--<div  class="search_border1" fxLayout="row" fxLayoutAlign="center center" (keyup)="applyFilter($event.target.value)" >
+         <input type="text" placeholder="Result Filter" class="input_border" >
+         <mat-icon>search</mat-icon> </div>-->
+    <div  fxLayoutAlign="center center" class="table_title" >Transactions Data</div>
+    <button class="more" (click)="openColumns()" fxLayoutAlign="center center">More Columns <mat-icon>arrow_drop_down</mat-icon></button>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="1%" >
+    <div fxLayout="row">
+      <span>Consolidation ID: </span> <span style="font-weight: 600; color: #7b7b7b;">{{referenceData['id']}}</span>
+    </div>
+    <div fxLayout="row">
+      <span>Facility ID: </span> <span style="font-weight: 600; color: #7b7b7b;">{{referenceData['facility_id']}}</span>
+    </div>
+  </div>
+
+  <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    <p class="transSearch">{{transSearchMessage}}</p>
+  </ngx-spinner>
+
+  <div class="table-scroll" fxLayout="column">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <div *ngFor="let column of displayedColumns" >
+        <ng-container [matColumnDef]="column.dataName" *ngIf="column.isVisible" class="column-space">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.name}} </th>
+          <td mat-cell nowrap *matCellDef="let element"> {{element[column.dataName]}} </td>
+        </ng-container>
+      </div>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+    </table>
+    <div *ngIf="!paginationShow" style="width: 100%">
+      <span fxLayoutAlign="center center" style="font-size: 1.5em;color: gray;font-weight: 600;margin: 5%;">No data found to display</span>
+    </div>
+  </div>
+
+  <!-- pagination -->
+  <div fxLayout="row" *ngIf="paginationShow" fxLayoutAlign="space-between center" class="pagination">
+    <div fxLayoutAlign="start center" >
+      <span>Total : <span style="font-weight: 600; color: #7b7b7b;">{{count}}</span></span>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="8%" *ngIf="paginationShow">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10%">
+        <span style="white-space:nowrap;margin-right: 5%;">Items per Page :</span>
+        <div class="itemsperPage">
+          <mat-select [(value)]="selected" style="width: 50px;"
+                      (selectionChange)="tablePageChange($event)">
+            <mat-option value='5'>5</mat-option>
+            <mat-option value='10'>10</mat-option>
+            <mat-option value='15'>15</mat-option>
+            <mat-option value='20'>20</mat-option>
+            <mat-option value='25'>25</mat-option>
+            <mat-option value='30'>30</mat-option>
+            <mat-option value='35'>35</mat-option>
+            <mat-option value='40'>40</mat-option>
+            <mat-option value='45'>45</mat-option>
+            <mat-option value='50'>50</mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div style="white-space:nowrap;">
+        <button [disabled]="currentPage === 1" class="button button4"
+                [ngStyle]="{'cursor': currentPage === 1 ? 'not-allowed': 'pointer'}"
+                (click)="first()" href="#">
+          First
+        </button>
+        <button class="button button4"
+                [ngStyle]="{'cursor': currentPage === 1 ? 'not-allowed': 'pointer'}"
+                [disabled]="currentPage === 1" (click)="backward(currentPage)"
+                href="#">
+          &laquo;
+        </button>
+        <span *ngFor="let p of pageNumbers" (click)="activePage(p)">
+                    <button [ngClass]="currentPage === p ? 'button': 'button button4'"
+                            href="#">
+                      {{p}}
+                    </button>
+                  </span>
+        <button class="button button4"
+                [ngStyle]="{'cursor': currentPage === pages.length ? 'not-allowed': 'pointer'}"
+                [disabled]="currentPage === pages.length"
+                (click)="forward(currentPage)">
+          &raquo;
+        </button>
+        <button [ngStyle]="{'cursor': currentPage === pages.length ? 'not-allowed': 'pointer'}"
+                class="button button4" [disabled]="currentPage === pages.length" (click)="last()"
+                href="#">
+          Last
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,76 @@
+.main{
+  font-family: "open sans", sans-serif;
+  background-color: white;
+  border-radius: 0.3em;
+  /* padding-bottom: 1.2%; */
+}
+
+.box{
+  padding-right: 1%;
+  padding-left: 1%;
+  /* padding-bottom: 1% */
+}
+
+.column_names{
+  height: 23em;
+  overflow: auto;
+  border: 1px solid grey;
+  padding-left: 4%;
+  padding-top: 1%;
+  padding-bottom: 2%;
+}
+
+.title{
+  font-family: "open sans", sans-serif;
+  font-size: 1.25em;
+  font-weight: 500;
+  color: #3798ea;
+  /* color: white; */
+  /* background-color: #3798ea; */
+  /* border-radius: 0.6em; */
+  /* padding: 1%; */
+}
+
+.columnsStyle{
+  margin-bottom: 2%;
+}
+
+.dialog{
+  font-family: "open sans", sans-serif;
+  margin-top: 1%;
+  margin-left: 1%;
+  margin-right: 1%;
+  padding-bottom: 1%;
+  /* border: 1px solid rgb(167, 162, 162) */
+}
+
+.cancel_ok{
+  background-color: #3798ea;
+  font-weight: 600;
+  font-size: 0.875em ;
+  font-family: "open sans", sans-serif;
+  color: #ffffff;
+  border-radius: 1.25em;
+  border: transparent;
+  padding: 0.625em;
+  border: 0 !important;
+  -webkit-appearance :none !important;
+  outline: none !important;
+  width: 15%;
+}
+.cancel{
+  cursor: pointer;
+  font-family: "open sans", sans-serif;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame .mat-checkbox-layout .mat-checkbox-label {
+  font-family: "open sans", sans-serif;
+}
+
+.search_label{
+  color: #818181;
+  font-weight: 600;
+  font-size: 1.4em ;
+  font-family: "open sans", sans-serif;
+  margin-top: 1%;
+}

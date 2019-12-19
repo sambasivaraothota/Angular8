@@ -1,0 +1,76 @@
+
+.main{
+  font-family: "open sans", sans-serif;
+}
+.modules{
+  color: #cccaca;
+  font-weight: 700;
+  font-size: 0.875em;
+  font-family: "open sans", sans-serif;
+  height:100% !important;
+}
+
+.user{
+  padding: 7px 8px 6px 11px;
+  background: #3798ea !important;
+  color: white;
+  cursor: pointer;
+  right: 0px !important;
+}
+
+.i-3pl{
+  background-position: 20px 50%;
+  /* padding: 15px 0 15px 0; */
+  /* background-color: #fcb040;    */
+  /* cursor: pointer; */
+  margin-right: 1.5%;
+  /* background-color: rgb(243, 212, 154) */
+}
+
+.i3pl-logo{
+  /* background-color: #fcb040; */
+  /* font-weight: 700; */
+  /* line-height: 1.25; */
+  cursor: pointer;
+  height: 100%;
+  /* margin-top: 15px;
+  margin-left: 20px; */
+}
+
+/* .i3pl-logo:hover{
+    border-bottom: 2px solid #fcb040
+} */
+
+.settings{
+  height: 2.5em;
+  margin-right: 2%;
+  cursor: pointer;
+}
+.mySearches{
+  color: #555555;
+  font-weight: 700;
+  font-size: 0.95em;
+  font-family: "open sans", sans-serif;
+  margin-right: 2%;
+}
+
+p{
+  cursor: pointer;
+}
+
+.profile_menu i.fa-user {
+  font-size: 32px;
+  border: 2px solid #fff;
+  width: 39px;
+  text-align: center;
+  height: 39px;
+  line-height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+a
+{
+  text-decoration:none;
+
+}

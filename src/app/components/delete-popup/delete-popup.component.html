@@ -1,0 +1,17 @@
+<div fxLayoutAlign="end center">
+  <button class="close_button1" (click)="onNoClick('false')">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+
+<div fxLayoutAlign="center center" fxLayout="column"> 
+
+  <p class="del_text" fxLayout="center center">Are you sure want to delete this Saved Search Criteria ?</p>
+
+  <div  fxLayout="row" fxLayoutGap="15%" class="action_buttons">
+    <button (click)="onNoClick('false')">No</button>
+    <button (click)="onClick_ok('true')">Yes</button>
+  </div>
+
+</div>

@@ -1,0 +1,15 @@
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="onCloseClick()">×</button>
+      <h3 class="modal-title">Search Info: {{savedSearchCriteriaInfo.NAME}}</h3>
+    </div>
+    <div class="modal-body">
+      <p><b>Created On</b> : {{savedSearchCriteriaInfo["CREATED ON"]}} UTC</p>
+      <p><b>Last Updated On</b> : {{savedSearchCriteriaInfo["LAST MODIFIED"]}} UTC</p>
+      <p><b>Search Criteria Id</b> : {{savedSearchCriteriaInfo.ID}}</p>
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="onCloseClick()">Close</button>
+    </div>
+  </div>

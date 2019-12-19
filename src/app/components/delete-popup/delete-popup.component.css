@@ -1,0 +1,19 @@
+.close_button1{
+    background-color: #fff;
+     padding: 0px !important;
+     cursor: pointer;
+}
+
+.action_buttons button:hover {
+    font-weight: 700;
+}
+
+.action_buttons{
+    margin-bottom: 5%;
+}
+
+.del_text{
+    font-size: 0.875em;
+    padding: 2%;
+    white-space:nowrap;
+}

@@ -1,0 +1,125 @@
+.header{
+  position: absolute;
+  top: 0;
+  left:0;
+  right:0 !important;
+  z-index: 1;
+  height: 60px;
+  width: 100%;
+  background-color: #f9f7f8;;
+  font-family: "open sans", sans-serif;
+  box-shadow: 0 2px 4px 0 rgba(218, 216, 216, 0.5);
+}
+
+.footer{
+  bottom: 0;
+  left:0;
+  right:0 !important;
+  position: absolute;
+  height: 60px;
+  width: 100%;
+  font-family: "open sans", sans-serif;
+  background-color: #f9f7f8;;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+}
+
+.middleContainer {
+  top : 60px;
+  width: 100%;
+  bottom:60px;
+  left:0 !important;
+  right:0 !important;
+  position: absolute;
+  overflow: auto;
+  background-color: #f1f1f1;
+  font-family: "open sans", sans-serif;
+}
+
+.sideNavCustom {
+  overflow-y: hidden;
+  right: 0;
+  top: 60px;
+  position: fixed;
+  z-index: 999 !important;
+  bottom: 60px;
+  width: 16.5%;
+  height: auto!important;
+  background: #555555 ;
+}
+.user{
+  padding: 14px 8px 8px 11px;
+  color: white
+}
+
+.my_searches{
+  color: #fff;
+  font-size: 18px;
+  padding: 7%;
+  cursor: pointer;
+}
+
+.my_searches:hover{
+  background-color: #22242b;
+}
+
+.my_searches:hover span{
+  border-bottom: 1.5px solid #fff
+}
+
+.logout{
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+  padding: 7%;
+  background-color: #959595;
+}
+
+.profile_menu i.fa-user {
+  font-size: 32px;
+  border: 2px solid #fff;
+  width: 35px;
+  text-align: center;
+  height: 35px;
+  line-height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.sideNavCustom .header {
+  min-height: 60px;
+  position: relative;
+  background: rgb(65, 162, 244);
+  padding-top: 15px;
+}
+.sideNavCustom .header .side-user .avatar {
+  float: left;
+  margin:0px 12px;
+}
+
+.sideNavCustom .header .side-user .avatar b.fa {
+  font-size: 32px;
+  width: 40px;
+  text-align: center;
+  height: 40px;
+  line-height: 49px;
+  color: rgb(255, 255, 255);
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-image: initial;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.sideNavCustom .header .side-user .info h4 {
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  margin: 0px;
+}
+.sideNavCustom .header .side-user .info p {
+  color: rgb(255, 255, 255);
+  margin: 0px;
+}
+.logout_text{
+  margin-left: 6px;
+}

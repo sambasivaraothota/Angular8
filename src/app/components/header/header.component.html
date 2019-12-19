@@ -1,0 +1,42 @@
+
+<div fxFlex class="main" fxLayout="row" >
+
+  <div   class="i-3pl" fxFlex="140px">
+    <a  href={{i3plHomeUrl}}><img  src="/assets/i3pl-whitelogo.png" class="i3pl-logo" ></a>
+  </div>
+
+  <div fxLayoutAlign="start center" fxFlex="80" fxLayoutGap="3%"  class="modules">
+    <p *ngIf="cons_tab" (click)="openConsolidation()" [ngStyle]="{'color': cons_tab === true ? '#3798ea' : '#cccaca' }">Consolidation</p>
+
+    <p *ngIf="rates_tab">
+      <a href={{ratesUrl}} [ngStyle]="{'color': rates_tab === false ? '#3798ea' : '#cccaca' }">Rates</a>
+    </p>
+
+    <p *ngIf="trans_tab">
+      <a href={{transactionUrl}} [ngStyle]="{'color': trans_tab === false ? '#3798ea' : '#cccaca' }">Transactions</a>
+    </p>
+
+    <p *ngIf="def_tab">
+      <a href={{deferralUrl}} [ngStyle]="{'color': def_tab === false ? '#3798ea' : '#cccaca' }" style="flex-wrap: initial">Deferral Application</a>
+    </p>
+
+    <p *ngIf="review_tab">
+      <a href={{reviewUrl}} [ngStyle]="{'color': review_tab === false ? '#3798ea' : '#cccaca' }">Review</a>
+    </p>
+
+    <p *ngIf="billing_tab">
+      <a href={{leasedBillingUrl}} [ngStyle]="{'color': billing_tab === false ? '#3798ea' : '#cccaca' }">Leased Billing</a>
+    </p>
+
+    <p *ngIf="rules_tab">
+      <a href={{rulesUrl}} [ngStyle]="{'color': rules_tab === false ? '#3798ea' : '#cccaca' }">Rules</a>
+    </p>
+  </div>
+
+  <div fxLayoutAlign="end center" fxFlex="10" >
+    <span class="user profile_menu" (click)="toggle()"><i class="fa fa-user fa-2x" ></i></span>
+  </div>
+
+</div>
+
+
